@@ -9,15 +9,19 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 		this.activeStyle = {
 			border: '1px solid #000',
 			display: 'block',
-			margin: '2px 0',
-			width: '40px'
+			margin: '4px 0',
+			padding: '4px',
+			width: '30px',
+			textAlign: 'center'
 		}
 
 		this.defaultStyle = {
 			border: '1px solid #eee',
 			display: 'block',
-			margin: '2px 0',
-			width: '40px'
+			margin: '4px 0',
+			padding: '4px',
+			width: '30px',
+			textAlign: 'center'
 		}
 	}
 
@@ -99,6 +103,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 			display: 'inline-block',
 			borderLeft: '2px solid #333',
 			borderRight: '2px solid #333',
+			padding: '0 2px',
 			borderRadius: '4px'
 		}
 	}
@@ -298,7 +303,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 
 			var columnStyle = {
 				float: 'left',
-				padding: '3px'
+				padding: '2px'
 			}
 
 			var col = React.createElement("div", {key: x, style: columnStyle}, column)
