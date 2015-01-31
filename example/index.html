@@ -3,7 +3,14 @@
 		<title>React Matrix</title>
 	</head>
 	<body>
+		<h2>Resizeable matrix (default)</h2>
 		<div id="matrix"></div>
+
+		<h2>Horizontally resizeable matrix (resize='horizontal')</h2>
+		<div id="matrix2"></div>
+
+		<h2>Fixed size matrix (resize='none')</h2>
+		<div id="matrix3"></div>
 
 		<script src="react.js"></script>
 		<script src="../dist/react-matrix.js"></script>
@@ -14,6 +21,22 @@
 					columns: [[1,2], [3,4], [5,6]]
 				}),
 				document.getElementById('matrix')
+			);
+
+			React.render(
+				React.createElement(Matrix, {
+					columns: [[1,2], [3,4]],
+					resize: 'horizontal',
+				}),
+				document.getElementById('matrix2')
+			);
+
+			React.render(
+				React.createElement(Matrix, {
+					columns: [[1,2,3], [4,5,6], [7,8,9]],
+					resize: 'none'
+				}),
+				document.getElementById('matrix3')
 			);
 		</script>
 	</body>

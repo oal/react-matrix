@@ -85,6 +85,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 
 var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){Matrix[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;Matrix.prototype=Object.create(____SuperProtoOf____Class1);Matrix.prototype.constructor=Matrix;Matrix.__superConstructor__=____Class1;
 	function Matrix(props) {"use strict";
+		if(props.resize === undefined) props.resize = 'both';
 		____Class1.call(this,props);
 
 		this.state = {
@@ -124,6 +125,16 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 		})
 	};
 
+	Matrix.prototype.isResizeableX=function() {"use strict";
+		var resize = this.props.resize;
+		return (resize === 'horizontal' || resize === 'both')
+	};
+
+	Matrix.prototype.isResizeableY=function() {"use strict";
+		var resize = this.props.resize;
+		return (resize === 'vertical' || resize === 'both')
+	};
+
 	Matrix.prototype.setCell=function(caret, cellX, cellY) {"use strict";
 		// Remove columns / rows if needed
 		this.truncate(cellX, cellY);
@@ -154,14 +165,18 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 		if(cellX < 0) return;
 		if(cellY < 0) return;
 
+		// If outside bounds and resizing is disabled
+		if(!this.isResizeableX() && cellX >= this.getWidth()) cellX = this.state.x;
+		if(!this.isResizeableY() && cellY >= this.getHeight()) cellY = this.state.y;
+
 		// Remove columns / rows if needed
 		this.truncate(cellX, cellY);
 
 		// Add column / row if needed
-		if(cellX >= this.getWidth()) {
+		if(cellX >= this.getWidth() && this.isResizeableX()) {
 			this.addColumn();
 		}
-		if(this.state.y+dy >= this.getHeight()) {
+		if(this.state.y+dy >= this.getHeight() && this.isResizeableY()) {
 			this.addRow();
 		}
 
@@ -235,10 +250,10 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 
 	Matrix.prototype.truncate=function(cellX, cellY) {"use strict";
 		for (var x = this.getWidth()-1; x > cellX; x--) {
-			if(this.isColumnEmpty(x)) this.removeColumn(x)
+			if(this.isColumnEmpty(x) && this.isResizeableX()) this.removeColumn(x)
 		};
 		for (var y = this.getHeight()-1; y > cellY; y--) {
-			if(this.isRowEmpty(y)) this.removeRow(y)
+			if(this.isRowEmpty(y) && this.isResizeableY()) this.removeRow(y)
 		};
 	};
 

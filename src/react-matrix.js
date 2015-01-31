@@ -85,6 +85,7 @@ class MatrixCell extends React.Component {
 
 class Matrix extends React.Component {
 	constructor(props) {
+		if(props.resize === undefined) props.resize = 'both';
 		super(props);
 
 		this.state = {
@@ -124,6 +125,16 @@ class Matrix extends React.Component {
 		})
 	}
 
+	isResizeableX() {
+		var resize = this.props.resize;
+		return (resize === 'horizontal' || resize === 'both')
+	}
+
+	isResizeableY() {
+		var resize = this.props.resize;
+		return (resize === 'vertical' || resize === 'both')
+	}
+
 	setCell(caret, cellX, cellY) {
 		// Remove columns / rows if needed
 		this.truncate(cellX, cellY);
@@ -154,14 +165,18 @@ class Matrix extends React.Component {
 		if(cellX < 0) return;
 		if(cellY < 0) return;
 
+		// If outside bounds and resizing is disabled
+		if(!this.isResizeableX() && cellX >= this.getWidth()) cellX = this.state.x;
+		if(!this.isResizeableY() && cellY >= this.getHeight()) cellY = this.state.y;
+
 		// Remove columns / rows if needed
 		this.truncate(cellX, cellY);
 
 		// Add column / row if needed
-		if(cellX >= this.getWidth()) {
+		if(cellX >= this.getWidth() && this.isResizeableX()) {
 			this.addColumn();
 		}
-		if(this.state.y+dy >= this.getHeight()) {
+		if(this.state.y+dy >= this.getHeight() && this.isResizeableY()) {
 			this.addRow();
 		}
 
@@ -235,10 +250,10 @@ class Matrix extends React.Component {
 
 	truncate(cellX, cellY) {
 		for (var x = this.getWidth()-1; x > cellX; x--) {
-			if(this.isColumnEmpty(x)) this.removeColumn(x)
+			if(this.isColumnEmpty(x) && this.isResizeableX()) this.removeColumn(x)
 		};
 		for (var y = this.getHeight()-1; y > cellY; y--) {
-			if(this.isRowEmpty(y)) this.removeRow(y)
+			if(this.isRowEmpty(y) && this.isResizeableY()) this.removeRow(y)
 		};
 	}
 
