@@ -12,6 +12,9 @@
 		<h2>Fixed size matrix (resize='none')</h2>
 		<div id="matrix3"></div>
 
+		<h2>Readonly matrix</h2>
+		<div id="matrix4"></div>
+
 		<script src="react.js"></script>
 		<script src="../dist/react-matrix.js"></script>
 
@@ -38,6 +41,14 @@
 					resize: 'none'
 				}),
 				document.getElementById('matrix3')
+			);
+
+			React.render(
+				React.createElement(Matrix, {
+					columns: [[1,2,3], [4,5,6], [7,8,9]],
+					readonly: true
+				}),
+				document.getElementById('matrix4')
 			);
 		</script>
 	</body>

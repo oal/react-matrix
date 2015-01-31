@@ -75,7 +75,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 		var style = this.defaultStyle;
 		if(this.props.active) style = this.activeStyle;
 		return (
-			React.createElement("input", {ref: "input", type: "text", style: style, value: this.props.value, 
+			React.createElement("input", {ref: "input", type: "text", style: style, value: this.props.value, readOnly: this.props.readonly, 
 				onClick: this.onClick.bind(this), 
 				onKeyUp: this.onKeyUp.bind(this), 
 				onChange: this.onChange.bind(this)})	
@@ -169,12 +169,12 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 
 	Matrix.prototype.isResizeableX=function() {"use strict";
 		var resize = this.props.resize;
-		return (resize === 'horizontal' || resize === 'both' || resize === undefined)
+		return (!this.props.readonly && (resize === 'horizontal' || resize === 'both' || resize === undefined))
 	};
 
 	Matrix.prototype.isResizeableY=function() {"use strict";
 		var resize = this.props.resize;
-		return (resize === 'vertical' || resize === 'both' || resize === undefined)
+		return (!this.props.readonly && (resize === 'vertical' || resize === 'both' || resize === undefined))
 	};
 
 	Matrix.prototype.setCell=function(caret, cellX, cellY) {"use strict";
@@ -307,7 +307,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 			var y = 0;
 			var column = columnValues.map(function(value, y) {
 				var active = currentCell === activeCell;
-				var cell = React.createElement(MatrixCell, {key: x+'-'+y, value: value, matrix: this, x: x, y: y, active: active})
+				var cell = React.createElement(MatrixCell, {key: x+'-'+y, value: value, matrix: this, x: x, y: y, active: active, readonly: this.props.readonly})
 				currentCell++;
 				return cell;
 			}, this)

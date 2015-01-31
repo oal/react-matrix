@@ -75,7 +75,7 @@ class MatrixCell extends React.Component {
 		var style = this.defaultStyle;
 		if(this.props.active) style = this.activeStyle;
 		return (
-			<input ref="input" type="text" style={style} value={this.props.value}
+			<input ref="input" type="text" style={style} value={this.props.value} readOnly={this.props.readonly}
 				onClick={this.onClick.bind(this)}
 				onKeyUp={this.onKeyUp.bind(this)}
 				onChange={this.onChange.bind(this)} />	
@@ -169,12 +169,12 @@ class Matrix extends React.Component {
 
 	isResizeableX() {
 		var resize = this.props.resize;
-		return (resize === 'horizontal' || resize === 'both' || resize === undefined)
+		return (!this.props.readonly && (resize === 'horizontal' || resize === 'both' || resize === undefined))
 	}
 
 	isResizeableY() {
 		var resize = this.props.resize;
-		return (resize === 'vertical' || resize === 'both' || resize === undefined)
+		return (!this.props.readonly && (resize === 'vertical' || resize === 'both' || resize === undefined))
 	}
 
 	setCell(caret, cellX, cellY) {
@@ -307,7 +307,7 @@ class Matrix extends React.Component {
 			var y = 0;
 			var column = columnValues.map(function(value, y) {
 				var active = currentCell === activeCell;
-				var cell = <MatrixCell key={x+'-'+y} value={value} matrix={this} x={x} y={y} active={active} />
+				var cell = <MatrixCell key={x+'-'+y} value={value} matrix={this} x={x} y={y} active={active} readonly={this.props.readonly} />
 				currentCell++;
 				return cell;
 			}, this)
