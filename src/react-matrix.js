@@ -1,3 +1,7 @@
+/**
+ * @author Olav Lindekleiv http://lindekleiv.com/
+ */
+
 class MatrixCell extends React.Component {
 	constructor(props) {
 		super(props);

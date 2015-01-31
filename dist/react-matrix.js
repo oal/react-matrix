@@ -1,3 +1,7 @@
+/**
+ * @author Olav Lindekleiv http://lindekleiv.com/
+ */
+
 var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____Class0.hasOwnProperty(____Class0____Key)){MatrixCell[____Class0____Key]=____Class0[____Class0____Key];}}var ____SuperProtoOf____Class0=____Class0===null?null:____Class0.prototype;MatrixCell.prototype=Object.create(____SuperProtoOf____Class0);MatrixCell.prototype.constructor=MatrixCell;MatrixCell.__superConstructor__=____Class0;
 	function MatrixCell(props) {"use strict";
 		____Class0.call(this,props);
