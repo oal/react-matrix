@@ -1,10 +1,6 @@
 class MatrixCell extends React.Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			value: this.props.value,
-		}
 		
 		this.activeStyle = {
 			border: '1px solid #000',
@@ -26,7 +22,7 @@ class MatrixCell extends React.Component {
 	}
 
 	onChange(e) {
-		var oldVal = this.state.value;
+		var oldVal = this.props.value;
 		var val = e.target.value;
 		var diffLen = (''+val).length - (''+oldVal).length;
 		this.props.matrix.setCellValue(this.props.x, this.props.y, val);
@@ -79,7 +75,7 @@ class MatrixCell extends React.Component {
 		var style = this.defaultStyle;
 		if(this.props.active) style = this.activeStyle;
 		return (
-			<input ref="input" type="text" style={style} value={this.state.value}
+			<input ref="input" type="text" style={style} value={this.props.value}
 				onClick={this.onClick.bind(this)}
 				onKeyUp={this.onKeyUp.bind(this)}
 				onChange={this.onChange.bind(this)} />	
@@ -133,6 +129,12 @@ class Matrix extends React.Component {
 		return this.state.columns[n];
 	}
 
+	setColumn(n, values) {
+		var columns = this.state.columns;
+		columns[n] = values;
+		this.setState({columns: columns});
+	}
+
 	getColumns() {
 		return this.state.columns;
 	}
@@ -145,6 +147,15 @@ class Matrix extends React.Component {
 		}
 
 		return row;
+	}
+
+	setRow(n, values) {
+		var columns = this.state.columns
+		for (var i = 0; i < values.length; i++) {
+			columns[i][n] = values[i];
+		}
+
+		this.setState({columns: columns});
 	}
 
 	getRows() {
