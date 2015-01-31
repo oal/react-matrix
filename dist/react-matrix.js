@@ -22,16 +22,19 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 	}
 
 	MatrixCell.prototype.onChange=function(e) {"use strict";
+		var oldVal = this.state.value;
 		var val = e.target.value;
+		var diffLen = (''+val).length - (''+oldVal).length;
 		this.props.matrix.setCellValue(this.props.x, this.props.y, val);
 		this.setState({value: val});
+		this.props.matrix.moveCell(diffLen, 0)
 	};
 
 	MatrixCell.prototype.onClick=function(e) {"use strict";
 		this.props.matrix.setCell(e.target.selectionStart, this.props.x, this.props.y)
 	};
 
-	MatrixCell.prototype.onKeyDown=function(e) {"use strict";
+	MatrixCell.prototype.onKeyUp=function(e) {"use strict";
 		var dy = 0;
 		var dx = 0;
 		switch(e.key) {
@@ -54,11 +57,10 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 
 	MatrixCell.prototype.focus=function() {"use strict";
 		var node = this.refs.input.getDOMNode();
-		var caretPos = this.props.matrix.state.caret;
 		node.focus();
-		setTimeout(function() {
-			node.setSelectionRange(caretPos, caretPos)
-		}, 0);
+		var caretPos = this.props.matrix.state.caret;
+		node.setSelectionRange(caretPos, caretPos)
+	
 	};
 
 	MatrixCell.prototype.componentDidMount=function() {"use strict";
@@ -75,7 +77,7 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 		return (
 			React.createElement("input", {ref: "input", type: "text", style: style, value: this.state.value, 
 				onClick: this.onClick.bind(this), 
-				onKeyDown: this.onKeyDown.bind(this), 
+				onKeyUp: this.onKeyUp.bind(this), 
 				onChange: this.onChange.bind(this)})	
 		);
 	};
@@ -136,6 +138,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 	Matrix.prototype.moveCell=function(dx, dy) {"use strict";
 		var cellX = this.state.x;
 		var caretPos;
+
 		if(this.state.caret+dx > (''+this.getCellValue(cellX, this.state.y)).length) {
 			cellX++;
 			caretPos = 0; // First pos in next cell
@@ -155,7 +158,7 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 		this.truncate(cellX, cellY);
 
 		// Add column / row if needed
-		if(this.state.x+dx >= this.getWidth()) {
+		if(cellX >= this.getWidth()) {
 			this.addColumn();
 		}
 		if(this.state.y+dy >= this.getHeight()) {
@@ -242,19 +245,15 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 	Matrix.prototype.render=function() {"use strict";
 		var activeCell = this.state.x * this.getHeight() + this.state.y;
 		var currentCell = 0;
-		var currentCol = 0;
 
-		var x = 0;
-		var columns = this.state.columns.map(function(columnValues) {
+		var columns = this.state.columns.map(function(columnValues, x) {
 			var y = 0;
-			var column = columnValues.map(function(value) {
+			var column = columnValues.map(function(value, y) {
 				var active = currentCell === activeCell;
 				var cell = React.createElement(MatrixCell, {key: x+'-'+y, value: value, matrix: this, x: x, y: y, active: active})
 				currentCell++;
-				y += 1;
 				return cell;
 			}, this)
-			x += 1
 
 			var columnStyle = {
 				float: 'left',
@@ -262,7 +261,6 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 			}
 
 			var col = React.createElement("div", {key: x, style: columnStyle}, column)
-			currentCol++;
 			return col;
 			
 		}, this)
