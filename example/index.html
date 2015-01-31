@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<title>React Matrix</title>
+	</head>
+	<body>
+		<div id="matrix"></div>
+
+		<script src="react.js"></script>
+		<script src="../dist/react-matrix.js"></script>
+
+		<script>
+			React.render(
+				React.createElement(Matrix, {
+					columns: [[1,2], [3,4], [5,6]]
+				}),
+				document.getElementById('matrix')
+			);
+		</script>
+	</body>
+</html>
