@@ -64,7 +64,6 @@ class MatrixCell extends React.Component {
 		node.focus();
 		var caretPos = this.props.matrix.state.caret;
 		node.setSelectionRange(caretPos, caretPos)
-	
 	}
 
 	componentDidMount() {
@@ -331,4 +330,10 @@ class Matrix extends React.Component {
 			</div>
 		);
 	}
+}
+
+Matrix.propTypes = {
+	columns: React.PropTypes.array,
+	resize: React.PropTypes.oneOf(['both', 'vertical', 'horizontal', 'none']),
+	readonly: React.PropTypes.bool
 }

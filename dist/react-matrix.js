@@ -331,3 +331,10 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 			)
 		);
 	};
+
+
+Matrix.propTypes = {
+	columns: React.PropTypes.array,
+	resize: React.PropTypes.oneOf(['both', 'vertical', 'horizontal', 'none']),
+	readonly: React.PropTypes.bool
+}
