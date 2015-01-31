@@ -85,7 +85,6 @@ var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____C
 
 var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){Matrix[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;Matrix.prototype=Object.create(____SuperProtoOf____Class1);Matrix.prototype.constructor=Matrix;Matrix.__superConstructor__=____Class1;
 	function Matrix(props) {"use strict";
-		if(props.resize === undefined) props.resize = 'both';
 		____Class1.call(this,props);
 
 		this.state = {
@@ -125,14 +124,41 @@ var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____C
 		})
 	};
 
+	Matrix.prototype.getColumn=function(n) {"use strict";
+		return this.state.columns[n];
+	};
+
+	Matrix.prototype.getColumns=function() {"use strict";
+		return this.state.columns;
+	};
+
+	Matrix.prototype.getRow=function(n) {"use strict";
+		var row = new Array(this.getWidth());
+		var columns = this.state.columns;
+		for (var i = 0; i < columns.length; i++) {
+			row[i] = columns[i][n];
+		}
+
+		return row;
+	};
+
+	Matrix.prototype.getRows=function() {"use strict";
+		var rows = new Array(this.getHeight());
+		for (var i = 0; i < this.getHeight(); i++) {
+			rows[i] = this.getRow(i)
+		};
+
+		return rows;
+	};
+
 	Matrix.prototype.isResizeableX=function() {"use strict";
 		var resize = this.props.resize;
-		return (resize === 'horizontal' || resize === 'both')
+		return (resize === 'horizontal' || resize === 'both' || resize === undefined)
 	};
 
 	Matrix.prototype.isResizeableY=function() {"use strict";
 		var resize = this.props.resize;
-		return (resize === 'vertical' || resize === 'both')
+		return (resize === 'vertical' || resize === 'both' || resize === undefined)
 	};
 
 	Matrix.prototype.setCell=function(caret, cellX, cellY) {"use strict";

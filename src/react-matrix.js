@@ -85,7 +85,6 @@ class MatrixCell extends React.Component {
 
 class Matrix extends React.Component {
 	constructor(props) {
-		if(props.resize === undefined) props.resize = 'both';
 		super(props);
 
 		this.state = {
@@ -125,14 +124,41 @@ class Matrix extends React.Component {
 		})
 	}
 
+	getColumn(n) {
+		return this.state.columns[n];
+	}
+
+	getColumns() {
+		return this.state.columns;
+	}
+
+	getRow(n) {
+		var row = new Array(this.getWidth());
+		var columns = this.state.columns;
+		for (var i = 0; i < columns.length; i++) {
+			row[i] = columns[i][n];
+		}
+
+		return row;
+	}
+
+	getRows() {
+		var rows = new Array(this.getHeight());
+		for (var i = 0; i < this.getHeight(); i++) {
+			rows[i] = this.getRow(i)
+		};
+
+		return rows;
+	}
+
 	isResizeableX() {
 		var resize = this.props.resize;
-		return (resize === 'horizontal' || resize === 'both')
+		return (resize === 'horizontal' || resize === 'both' || resize === undefined)
 	}
 
 	isResizeableY() {
 		var resize = this.props.resize;
-		return (resize === 'vertical' || resize === 'both')
+		return (resize === 'vertical' || resize === 'both' || resize === undefined)
 	}
 
 	setCell(caret, cellX, cellY) {

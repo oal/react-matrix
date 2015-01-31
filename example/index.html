@@ -16,12 +16,13 @@
 		<script src="../dist/react-matrix.js"></script>
 
 		<script>
-			React.render(
-				React.createElement(Matrix, {
-					columns: [[1,2], [3,4], [5,6]]
-				}),
-				document.getElementById('matrix')
-			);
+			var matrix = React.render(React.createElement(Matrix, {
+				columns: [[1,2], [3,4], [5,6]]
+			}), document.getElementById('matrix'));
+
+			console.log('Columns:', matrix.getColumns());
+			console.log('Rows:', matrix.getRows());
+			console.log('First row:', matrix.getRow(0));
 
 			React.render(
 				React.createElement(Matrix, {
